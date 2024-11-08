@@ -24,9 +24,10 @@ class MenuItemSerializer(serializers.ModelSerializer):
     stock = serializers.IntegerField(source='inventory') # Change inventory to stock field
     price_after_tax = serializers.SerializerMethodField(method_name='calculate_tax')
    # category = serializers.StringRelatedField() # Relationship Serializer
-    category = CategorySerilizer()
+    category = CategorySerilizer(read_only=True) # On GET only
+    category_id = serializers.IntegerField(write_only=True) # On POst only    
     class Meta:
         model = MenuItem
-        fields = ['id','title','category','price','stock','price_after_tax']
+        fields = ['id','title','category','price','stock','price_after_tax','category_id']
     def calculate_tax(self,product:MenuItem): # Add calculated fields to the serializer
         return product.price * Decimal(1.1)
