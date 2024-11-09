@@ -1,5 +1,4 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
 from .models import MenuItem
 from .serializers import MenuItemSerializer
 from rest_framework import status
@@ -7,7 +6,8 @@ from  django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, EmptyPage
 
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import permission_classes
+from rest_framework.decorators import api_view,  permission_classes, throttle_classes
+from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
 
 
 # Quick Starter for DRF - All Items
@@ -60,7 +60,30 @@ def single_item(request,id):
     serialized_item = MenuItemSerializer(item)
     return Response(serialized_item.data)
 
+# @api_view()
+# @permission_classes([IsAuthenticated])
+# def secret(request):
+#     return Response({"message":"some secret message"})
+
 @api_view()
 @permission_classes([IsAuthenticated])
-def secret(request):
-    return Response({"message":"some secret message"})
+def me(request):
+    return Response(request.user.email)
+
+@api_view()
+@permission_classes([IsAuthenticated])
+def manager(request):
+    if request.user.groups.filter(name='Manager').exists():
+        return Response({"message":"Only manager should view this"})
+    else:
+        return Response({"message":"You are not authorized"},403)
+
+@api_view()
+@throttle_classes([AnonRateThrottle])
+def throttle_check(request):
+    return Response({"message":"Successful"})
+
+@api_view()
+@throttle_classes([UserRateThrottle])
+def throttle_check_auth(request):
+    return Response({"message":"Successful"})
