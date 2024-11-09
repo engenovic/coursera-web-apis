@@ -8,6 +8,7 @@ from django.core.paginator import Paginator, EmptyPage
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view,  permission_classes, throttle_classes
 from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
+from .throttles import TenCallsPerMinute
 
 
 # Quick Starter for DRF - All Items
@@ -84,6 +85,7 @@ def throttle_check(request):
     return Response({"message":"Successful"})
 
 @api_view()
-@throttle_classes([UserRateThrottle])
+@permission_classes([IsAuthenticated])
+@throttle_classes([TenCallsPerMinute])
 def throttle_check_auth(request):
     return Response({"message":"Successful"})
