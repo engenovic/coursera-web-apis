@@ -19,15 +19,19 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # Django Apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Apps
+    'littlelemonAPI',
+    #Third-pary
     'rest_framework',
     'rest_framework.authtoken',
-    'littlelemonAPI',
+    'djoser', # Must be placed after rest_framework app
 ]
 
 MIDDLEWARE = [
@@ -121,10 +125,18 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication', 
+        'rest_framework.authentication.SessionAuthentication', # For admin Login
     ],
      'DEFAULT_THROTTLE_RATES': {
         'anon': '2/minute', # You can use Second, minute,hour or day
         'user': '5/minute',
-        'ten': '10/minute'
+        'ten': '10/minute' # Used for conditional throttling
     }
+}
+
+# DJOSER
+DJSOER={
+    "USER_ID_FIELD":"username", # Specifies which field in the user model will act as the primary Key
+    #"LOGIN_FIELD":"email"  # Users will login with email address
+    
 }
