@@ -1,5 +1,5 @@
 from pathlib import Path
-
+from datetime import  timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -32,6 +32,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'djoser', # Must be placed after rest_framework app
+    'rest_framework_simplejwt', # JWT
+    'rest_framework_simplejwt.token_blacklist', # Blacklist user from Refreshing token
 ]
 
 MIDDLEWARE = [
@@ -124,6 +126,7 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.TokenAuthentication', 
         'rest_framework.authentication.SessionAuthentication', # For admin Login
     ],
@@ -139,4 +142,9 @@ DJSOER={
     "USER_ID_FIELD":"username", # Specifies which field in the user model will act as the primary Key
     #"LOGIN_FIELD":"email"  # Users will login with email address
     
+}
+# JWT
+
+SIMPLE_JWT={
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5), # Specify token lifetime, always keep it short
 }

@@ -61,10 +61,10 @@ def single_item(request,id):
     serialized_item = MenuItemSerializer(item)
     return Response(serialized_item.data)
 
-# @api_view()
-# @permission_classes([IsAuthenticated])
-# def secret(request):
-#     return Response({"message":"some secret message"})
+@api_view()
+@permission_classes([IsAuthenticated])
+def secret(request):
+    return Response({"message":"some secret message"})
 
 @api_view()
 @permission_classes([IsAuthenticated])
