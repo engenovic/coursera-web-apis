@@ -32,8 +32,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'djoser', # Must be placed after rest_framework app
-    'rest_framework_simplejwt', # JWT
-    'rest_framework_simplejwt.token_blacklist', # Blacklist user from Refreshing token
+    # 'rest_framework_simplejwt', # JWT
+    # 'rest_framework_simplejwt.token_blacklist', # Blacklist user from Refreshing token
 ]
 
 MIDDLEWARE = [
@@ -145,6 +145,6 @@ DJSOER={
 }
 # JWT
 
-SIMPLE_JWT={
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5), # Specify token lifetime, always keep it short
-}
+# SIMPLE_JWT={
+#     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5), # Specify token lifetime, always keep it short
+# }
